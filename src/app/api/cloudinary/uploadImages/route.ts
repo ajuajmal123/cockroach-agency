@@ -1,4 +1,5 @@
 // src/app/api/uploadImages/route.ts
+import { requireAdmin } from "@/lib/adminAuth";
 import { v2 as cloudinary } from "cloudinary";
 import { NextResponse } from "next/server";
 
@@ -20,10 +21,7 @@ type CloudinaryUploadResult = {
 export async function POST(req: Request) {
   try {
     // simple admin guard (optional)
-    const adminKey = req.headers.get("x-admin-key");
-    if (!adminKey || adminKey !== process.env.ADMIN_API_KEY) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
+  await requireAdmin(req);
 
     const form = await req.formData();
     const files = form.getAll("files");

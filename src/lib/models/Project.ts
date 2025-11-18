@@ -16,6 +16,7 @@ const projectSchema = new mongoose.Schema(
     tags: { type: [String], default: [] },
     featured: { type: Boolean, default: false },
     order: { type: Number, default: 0 },
+     cloudinaryIds: { type: [String], default: [] },
   },
   { timestamps: true }
 );

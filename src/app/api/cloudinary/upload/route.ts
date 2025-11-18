@@ -1,7 +1,7 @@
 // server-only: app/api/cloudinary/upload/route.ts
 import { v2 as cloudinary } from "cloudinary";
 import { NextResponse } from "next/server";
-
+import { requireAdmin } from "@/lib/adminAuth";
 // SERVER env names (not NEXT_PUBLIC)
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -11,7 +11,8 @@ cloudinary.config({
 
 export async function POST(req: Request) {
   try {
-    // Basic admin guard (optional). Replace with your auth.
+     await requireAdmin(req);
+
     const adminKey = req.headers.get("x-admin-key");
     if (!adminKey || adminKey !== process.env.ADMIN_API_KEY) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -19,7 +20,7 @@ export async function POST(req: Request) {
 
     const formData = await req.formData();
     const file = formData.get("file") as File | null;
-    const folder = (formData.get("folder") as string) || "cockroach-agency";
+    const folder = (formData.get("folder") as string) || "cockroach-images";
 
     if (!file) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });

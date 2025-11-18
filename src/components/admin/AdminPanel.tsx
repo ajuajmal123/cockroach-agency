@@ -1,39 +1,21 @@
 // components/admin/AdminPanel.tsx
 "use client";
 import { useEffect, useState } from "react";
+import CloudinaryGallery from "./CloudinaryGallery";
+import ProjectForm from "./ProjectForm";
+
+type AuthState = { authenticated: boolean; email?: string } | null;
 
 export default function AdminPanel() {
-  const [auth, setAuth] = useState<{ authenticated: boolean; email?: string } | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [auth, setAuth] = useState<AuthState>(null);
+  const [tab, setTab] = useState<"projects" | "gallery">("projects");
 
-  useEffect(() => {
-    checkAuth();
-  }, []);
+  useEffect(() => { checkAuth(); }, []);
 
   async function checkAuth() {
-    setLoading(true);
     const res = await fetch("/api/admin/me");
     const json = await res.json();
     setAuth(json);
-    setLoading(false);
-  }
-
-  async function login(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const email = String(fd.get("email") || "");
-    const password = String(fd.get("password") || "");
-    const res = await fetch("/api/admin/login", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    const json = await res.json();
-    if (res.ok) {
-      await checkAuth();
-    } else {
-      alert(json.error || "Login failed");
-    }
   }
 
   async function logout() {
@@ -41,51 +23,63 @@ export default function AdminPanel() {
     setAuth({ authenticated: false });
   }
 
-  if (loading || auth === null) return <div>Loading…</div>;
-
+  if (auth === null) return <div>Loading…</div>;
   if (!auth.authenticated) {
     return (
-      <div className="mt-4 max-w-md">
-        <form onSubmit={login} className="grid gap-3">
-          <label className="block">
-            <div className="text-sm">Email</div>
-            <input name="email" className="w-full border px-3 py-2 rounded" />
-          </label>
-          <label className="block">
-            <div className="text-sm">Password</div>
-            <input name="password" type="password" className="w-full border px-3 py-2 rounded" />
-          </label>
-          <div>
-            <button type="submit" className="px-4 py-2 rounded bg-var(--color-brand) text-var(--color-ink)">Sign in</button>
+      <div className="max-w-md">
+        <h2 className="text-xl font-semibold mb-3">Admin sign in</h2>
+        <form onSubmit={async (e) => {
+          e.preventDefault();
+          const fd = new FormData(e.currentTarget as HTMLFormElement);
+          const email = String(fd.get("email") || "");
+          const password = String(fd.get("password") || "");
+          const r = await fetch("/api/admin/login", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+          if (r.ok) await checkAuth();
+          else {
+            const j = await r.json();
+            alert(j.error || "Login failed");
+          }
+        }} className="grid gap-3">
+          <input name="email" placeholder="email" className="border p-2 rounded" />
+          <input name="password" type="password" placeholder="password" className="border p-2 rounded" />
+          <div className="flex gap-2">
+            <button className="px-4 py-2 rounded bg-var(--color-brand) text-var(--color-ink)">Sign in</button>
           </div>
         </form>
       </div>
     );
   }
 
-  // authenticated UI — basic controls: open gallery, create project, logout
+  // authenticated
   return (
-    <div className="mt-4">
-      <div className="flex items-center justify-between mb-4">
+    <div>
+      <div className="flex items-center justify-between mb-6">
         <div>Signed in as <strong>{auth.email}</strong></div>
         <div>
           <button onClick={logout} className="px-3 py-1 rounded border">Log out</button>
         </div>
       </div>
 
-      <div className="grid gap-4">
-        <div>
-          <h2 className="font-semibold">Cloudinary gallery</h2>
-          <p className="text-sm text-color:var(--color-muted)">Use the gallery component to attach images to projects</p>
-          {/* lazy-load / dynamic import your CloudinaryGallery here */}
-        </div>
-
-        <div>
-          <h2 className="font-semibold">Projects</h2>
-          <p className="text-sm text-color:var(--color-muted)">Create, edit or remove portfolio items</p>
-          {/* implement simple forms that call /api/projects */}
-        </div>
+      <div className="flex gap-3 mb-6">
+        <button className={`px-3 py-1 rounded ${tab === "projects" ? "bg-white border" : "border bg-transparent"}`} onClick={() => setTab("projects")}>Projects</button>
+        <button className={`px-3 py-1 rounded ${tab === "gallery" ? "bg-white border" : "border bg-transparent"}`} onClick={() => setTab("gallery")}>Cloudinary Gallery</button>
       </div>
+
+      {tab === "projects" && (
+        <div className="space-y-6">
+          <ProjectForm />
+        </div>
+      )}
+
+      {tab === "gallery" && (
+        <div>
+          <CloudinaryGallery folder="cockroach-images" />
+        </div>
+      )}
     </div>
   );
 }
