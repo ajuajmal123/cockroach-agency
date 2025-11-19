@@ -29,7 +29,7 @@ export default function Hero() {
               </a>
               <a
                 href="#work"
-                className="inline-flex items-center gap-2 rounded-xl border px-5 py-3 hover:bg-gray-50"
+                className="inline-flex items-center gap-2 rounded-xl px-5 py-3 bg-brand  hover:bg-brand-dark"
               >
                 See our work
               </a>
@@ -44,9 +44,9 @@ export default function Hero() {
           <div className="relative">
             <div className="absolute -left-10 -top-10 h-72 w-72 rounded-full bg-brand/20 blur-3xl" />
             <div className="absolute -right-10 -bottom-10 h-72 w-72 rounded-full bg-brand/30 blur-3xl" />
-            <div className="relative aspect-4/3 overflow-hidden rounded-3xl border shadow-soft">
+            <div className="relative aspect-4/3 overflow-hidden rounded-3xl  shadow-soft">
               <img
-                src="https://images.unsplash.com/photo-1553696590-4b3f6889838b?q=80&w=1600&auto=format&fit=crop"
+                src= "image5.png"
                 alt="Design & code"
                 className="h-full w-full object-cover"
                 loading="eager"

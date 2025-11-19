@@ -7,8 +7,8 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           <div className="flex items-center gap-2 text-ink">
-            <Image src="/cockroach-logo.jpg" alt="" width={20} height={20} className="rounded-full" />
-            cockroach
+            <Image src="/logo.png" alt="" width={20} height={20} className="rounded-full" />
+            Cockroach Creatives
           </div>
           <div className="flex items-center gap-6">
             <Link href="#services" className="hover:text-ink">Services</Link>

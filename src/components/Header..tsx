@@ -15,37 +15,39 @@ const nav = [
 export default function Header() {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b">
+    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur ">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Keep justify-between to push navigation right */}
         <div className="flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
+
+          {/* 🛑 FIX: Removed 'my-6' from the logo Link. The 'h-16' on the parent div handles vertical centering. */}
+          <Link href="/" className="flex items-center gap-3 ">
             <Image
               src="/logo.png"
               alt="Cockroach Studio logo"
-              width={34}
-              height={34}
-              className="rounded-full"
+              width={300}
+              height={50}
+              className="rounded-full "
               priority
             />
-            <span className="font-semibold">cockroach</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-8 text-sm">
             {nav.map((n) => (
-              <a key={n.href} href={n.href} className="text-muted hover:text-ink">
+              <a key={n.href} href={n.href} className="text-black hover:text-ink">
                 {n.label}
               </a>
             ))}
             <a
               href="#contact"
-              className="inline-flex items-center rounded-xl border px-4 py-2 text-sm font-medium hover:bg-gray-50"
+              className="inline-flex items-center rounded-xl bg-brand px-4 py-2 text-sm font-medium hover:bg-brand-dark"
             >
               Start a Project
             </a>
           </nav>
 
           <button
-            className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg border"
+            className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg "
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
           >
@@ -68,7 +70,7 @@ export default function Header() {
               ))}
               <a
                 href="#contact"
-                className="rounded-lg px-3 py-2 border text-center"
+                className="rounded-lg px-3 py-2 bg-brand  hover:bg-brand-dark text-center"
                 onClick={() => setOpen(false)}
               >
                 Start a Project

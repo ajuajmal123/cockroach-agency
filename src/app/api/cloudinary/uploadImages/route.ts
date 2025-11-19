@@ -1,4 +1,4 @@
-// src/app/api/uploadImages/route.ts
+// src/app/api/uploadImages/route.ts (Consolidated Multi-File Upload)
 import { requireAdmin } from "@/lib/adminAuth";
 import { v2 as cloudinary } from "cloudinary";
 import { NextResponse } from "next/server";
@@ -20,8 +20,7 @@ type CloudinaryUploadResult = {
 
 export async function POST(req: Request) {
   try {
-    // simple admin guard (optional)
-  await requireAdmin(req);
+    await requireAdmin(req);
 
     const form = await req.formData();
     const files = form.getAll("files");
@@ -31,7 +30,6 @@ export async function POST(req: Request) {
 
     const folder = (form.get("folder") as string) || "cockroach-images";
 
-    // helper: upload one File to Cloudinary via upload_stream and return typed result
     const uploadFile = (file: File): Promise<CloudinaryUploadResult> =>
       new Promise(async (resolve, reject) => {
         try {
@@ -40,30 +38,21 @@ export async function POST(req: Request) {
           const stream = cloudinary.uploader.upload_stream(
             { folder },
             (err, result) => {
-              // IMPORTANT: explicitly check both err and result
-              if (err) {
-                return reject(err);
-              }
-              if (!result) {
-                return reject(new Error("Cloudinary returned no result"));
-              }
-              // Type assertion is safe now because we checked result
+              if (err) return reject(err);
+              if (!result) return reject(new Error("Cloudinary returned no result"));
               const typed = result as unknown as CloudinaryUploadResult;
               resolve(typed);
             }
           );
-
           stream.end(buffer);
         } catch (e) {
           reject(e);
         }
       });
 
-    // filter to File instances and upload
     const fileList = files.filter((f): f is File => f instanceof File);
     const uploads = await Promise.all(fileList.map((f) => uploadFile(f)));
 
-    // Return consistent array of uploaded items (public_id & secure_url)
     return NextResponse.json(
       uploads.map((u) => ({
         public_id: u.public_id,

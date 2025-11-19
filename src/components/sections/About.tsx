@@ -18,9 +18,9 @@ export default function About() {
             </ul>
           </div>
           <div className="relative">
-            <div className="relative aspect-4/3 overflow-hidden rounded-3xl border shadow-soft">
+            <div className="relative aspect-4/3 overflow-hidden rounded-3xl  shadow-soft">
               <img
-                src="https://images.unsplash.com/photo-1529336953121-ad2fd3f4f6c1?q=80&w=1600&auto=format&fit=crop"
+                src="image4.png"
                 alt="Team working"
                 className="h-full w-full object-cover"
               />

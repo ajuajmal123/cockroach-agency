@@ -3,19 +3,19 @@ const sampleWork = [
     title: "Cafe Bloom – Rebrand",
     tag: "Branding / Social",
     image:
-      "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1200&auto=format&fit=crop",
+      "image1.png",
   },
   {
     title: "CraftFit – Landing Page",
     tag: "Web / Next.js",
     image:
-      "https://images.unsplash.com/photo-1529338296731-c4280a44fc48?q=80&w=1200&auto=format&fit=crop",
+      "image2.png",
   },
   {
     title: "UrbnWear – Social Campaign",
     tag: "Graphics / Campaign",
     image:
-      "https://images.unsplash.com/photo-1520975922329-c743903f0172?q=80&w=1200&auto=format&fit=crop",
+      "image3.png",
   },
 ];
 
@@ -30,14 +30,14 @@ export default function Work() {
               A peek at recent brand, web, and social projects. Ask for our full deck.
             </p>
           </div>
-      <a href="/portfolio" className="inline-flex items-center gap-2 rounded-xl border border-var(--border) px-4 py-2 text-sm hover:bg-white">
+      <a href="/portfolio" className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm hover:bg-brand-dark">
   View all work
 </a>
 
         </div>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {sampleWork.map((w) => (
-            <article key={w.title} className="group overflow-hidden rounded-2xl border bg-white shadow-soft">
+            <article key={w.title} className="group overflow-hidden rounded-2xl  bg-white shadow-soft">
               <div className="aspect-4/3 overflow-hidden">
                 <img
                   src={w.image}
