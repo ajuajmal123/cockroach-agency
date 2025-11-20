@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Image from "next/image"; 
+import Footer from "@/components/Footer";
 
 // --- Types (Standard) ---
 type Project = {
@@ -76,13 +77,13 @@ export default async function ProjectDetailPage(
                 </div>
 
                 {/* Primary Image Banner */}
-                <div className="relative w-full aspect-[16/9] overflow-hidden rounded-xl shadow-xl mb-12 bg-gray-100">
+                <div className="relative w-full aspect-video overflow-hidden rounded-xl shadow-xl mb-12 bg-gray-100">
                     <Image
                         src={primaryImage}
                         alt={`Cover image for ${project.title}`}
                         fill
                         className="object-cover"
-                        sizes="(max-width: 1200px) 100vw, 1200px"
+                        sizes="(max-width: 800px) 100vw, 1200px"
                     />
                 </div>
 
@@ -112,13 +113,13 @@ export default async function ProjectDetailPage(
                         <h2 className="text-2xl font-bold mb-6 text-gray-900">Gallery</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             {secondaryImages.map((imgUrl, index) => (
-                                <div key={index} className="relative w-full aspect-[4/3] overflow-hidden rounded-xl bg-gray-100 shadow-md">
+                                <div key={index} className="relative w-full aspect-4/3 overflow-hidden rounded-xl bg-gray-100 shadow-md">
                                     <Image
                                         src={imgUrl}
                                         alt={`${project.title} detail ${index + 1}`}
                                         fill
                                         className="object-cover"
-                                        sizes="(max-width: 768px) 100vw, 50vw"
+                                        sizes="(max-width: 800px) 100vw, 50vw"
                                     />
                                 </div>
                             ))}
@@ -126,6 +127,7 @@ export default async function ProjectDetailPage(
                     </div>
                 )}
             </div>
+             
         </section>
     );
 }

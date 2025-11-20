@@ -100,7 +100,7 @@ export default function AdminPanel() {
         {/* Header and Logout */}
         <div className="flex items-center justify-between p-4 mb-6 border-b border-gray-200">
           <div className={`text-xl font-medium ${colors.ink}`}>Welcome, **{auth.email}**</div>
-          <button onClick={logout} className="px-4 py-2 rounded-lg border border-red-400 text-red-600 hover:bg-red-50 transition">
+          <button onClick={logout}  className="ml-2 px-3 py-2 border rounded-md text-sm sm:text-base whitespace-nowrap">
             Log out
           </button>
         </div>

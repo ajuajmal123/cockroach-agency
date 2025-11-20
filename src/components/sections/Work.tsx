@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const sampleWork = [
   {
     title: "Cafe Bloom – Rebrand",
@@ -34,7 +36,8 @@ export default function Work() {
   View all work
 </a>
 
-        </div>
+        </div> 
+        <Link href='/portfolio'>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {sampleWork.map((w) => (
             <article key={w.title} className="group overflow-hidden rounded-2xl  bg-white shadow-soft">
@@ -52,6 +55,7 @@ export default function Work() {
             </article>
           ))}
         </div>
+        </Link>
       </div>
     </section>
   );

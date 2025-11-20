@@ -28,7 +28,7 @@ export default function Hero() {
                 Get a quote →
               </a>
               <a
-                href="#work"
+                href="portfolio"
                 className="inline-flex items-center gap-2 rounded-xl px-5 py-3 bg-brand  hover:bg-brand-dark"
               >
                 See our work
