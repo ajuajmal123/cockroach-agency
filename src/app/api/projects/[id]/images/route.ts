@@ -1,16 +1,23 @@
-// app/api/projects/[id]/images/route.ts (FIXED)
+// app/api/projects/[id]/images/route.ts (fixed for Next.js build)
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/dbconnect";
 import Project from "@/lib/models/Project";
 import { requireAdmin } from "@/lib/adminAuth";
-import { IProject } from "@/lib/types/Project"; // 🟢 Import the interface
+import { IProject } from "@/lib/types/Project";
 
 export async function POST(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } | Promise<{ id: string }> } // <-- accept Promise OR object
 ) {
   try {
     await requireAdmin(req);
+
+    // resolve params whether Next provides a Promise or plain object
+    const params = await Promise.resolve(context.params);
+    const id = params?.id;
+    if (!id) {
+      return NextResponse.json({ error: "Missing id" }, { status: 400 });
+    }
 
     const body = await req.json();
     if (
@@ -25,28 +32,26 @@ export async function POST(
 
     await connectDB();
 
-    // 🟢 Cast the result to the IProject interface
-    const project = (await Project.findById(params.id)) as IProject | null;
+    // Cast the result to the IProject interface
+    const project = (await Project.findById(id)) as IProject | null;
 
-    if (!project)
-      return NextResponse.json({ error: "Project not found" }, { status: 404 }); // If caller sent public_ids, we will store them in cloudinaryIds field (create if missing)
+    if (!project) {
+      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    }
 
     if (Array.isArray(body.public_ids)) {
-      // Mongoose automatically initializes 'cloudinaryIds' if not present based on your schema
       project.cloudinaryIds = Array.from(
-        new Set([...project.cloudinaryIds, ...body.public_ids])
+        new Set([...(project.cloudinaryIds || []), ...body.public_ids])
       );
-    } // If caller sent image URLs, store them in images array
+    }
 
     if (Array.isArray(body.images)) {
-      // Mongoose automatically initializes 'images' if not present
-      project.images = Array.from(new Set([...project.images, ...body.images]));
-    } // optional: set coverImage if missing
+      project.images = Array.from(new Set([...(project.images || []), ...body.images]));
+    }
 
-    // 🟢 TypeScript now recognizes coverImage and images as properties of 'project'
     if (
       (!project.coverImage || project.coverImage === "") &&
-      project.images.length > 0
+      (project.images && project.images.length > 0)
     ) {
       project.coverImage = project.images[0];
     }

@@ -122,11 +122,11 @@ export default function Contact() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-ink/90">Email</label>
-                <input type="email" name="email" className="mt-1 w-full rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand" placeholder="you@example.com" />
+                <input type="email" name="email" className="mt-1 w-full rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand" placeholder="Your Email" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-ink/90">Mobile NO</label>
-                <input type="phone" name="phone" className="mt-1 w-full rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand" placeholder="your mobile number" />
+                <input type="phone" name="phone" className="mt-1 w-full rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand" placeholder="Your mobile number" />
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-sm font-medium text-ink/90">Project details</label>

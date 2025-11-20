@@ -6,7 +6,7 @@ export default function About() {
           <div>
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Small team. Big impact.</h2>
             <p className="mt-4 text-ink/80">
-              We’re a designer + developer duo based in India. We combine strong visual design with
+              We’re a team of creative people. We combine strong visual design with
               solid engineering to deliver work that looks great and works even better. We stay
               curious, learn fast, and keep things simple for our clients.
             </p>

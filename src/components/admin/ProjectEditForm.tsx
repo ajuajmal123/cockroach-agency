@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
 
-// --- Types (Ensure this matches src/lib/types/Project.ts) ---
+
 interface IProject {
   _id: string;
   title: string;

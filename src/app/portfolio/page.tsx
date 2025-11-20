@@ -3,6 +3,7 @@ import Link from "next/link";
 // 🟢 1. Import your Header component
 import Header from "@/components/Header.";
 import Footer from "@/components/Footer";
+import AdaptiveImage from "@/components/AdaptiveImage";
 
 // --- Types ---
 type Project = {
@@ -82,9 +83,9 @@ export default async function PortfolioPage({
           <div className="mb-6 flex items-end justify-between gap-4">
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">Portfolio</h1>
-            
+
             </div>
-           
+
           </div>
 
           {/* Primary Category Filter */}
@@ -129,7 +130,7 @@ export default async function PortfolioPage({
           {items.length === 0 ? (
             <div className="py-20 text-center text-gray-500 border-2 border-dashed rounded-xl bg-white">
               <h2 className="text-xl font-semibold">No Projects Found 😔</h2>
-              <p className="mt-2">Try adjusting your filters or clearing the search query.</p>
+              
             </div>
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -141,17 +142,15 @@ export default async function PortfolioPage({
                 >
                   <article className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-md transition-all duration-300 group-hover:scale-[1.02] group-hover:shadow-lg">
                     <div className="aspect-4/3 overflow-hidden">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
+                      <AdaptiveImage
                         src={p.coverImage || p.images?.[0] || "/placeholder.png"}
                         alt={p.title}
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
                     <div className="p-4">
-                      <div className="text-xs uppercase tracking-wide text-gray-500">
-                        {p.category} {p.subCategory ? `· ${p.subCategory}` : ""}
-                      </div>
+
                       <h3 className="mt-1 text-lg font-semibold text-gray-900 group-hover:text-black transition">
                         {p.title}
                       </h3>
@@ -166,12 +165,12 @@ export default async function PortfolioPage({
               ))}
             </div>
           )}
-        
+
         </div>
         <div className="h-1">
-        <Footer />
+          <Footer />
         </div>
-             
+
       </section>
     </>
   );

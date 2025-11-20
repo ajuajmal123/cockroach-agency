@@ -82,9 +82,7 @@ export default function EnquiriesTable() {
           </select>
         </div>
 
-        <div className="text-sm text-gray-600">
-          Showing {from}–{to} of {total}
-        </div>
+       
       </div>
 
       {/* Desktop table */}

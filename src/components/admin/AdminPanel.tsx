@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import CloudinaryGallery from "./CloudinaryGallery"; // Now Project Table Manager
 import ProjectForm from "./ProjectForm";
+import Link from "next/link";
 
 // Define a consistent color map using Tailwind classes based on the suggested theme
 const colors = {
@@ -17,7 +18,7 @@ type AuthState = { authenticated: boolean; email?: string } | null;
 
 export default function AdminPanel() {
   const [auth, setAuth] = useState<AuthState>(null);
-  const [tab, setTab] = useState<"projects" | "gallery">("projects");
+  const [tab, setTab] = useState<"projects" | "gallery" |'enquiry'>("projects");
 
   const checkAuth = useCallback(async () => {
     const res = await fetch("/api/admin/me");
@@ -117,6 +118,13 @@ export default function AdminPanel() {
             onClick={() => setTab("gallery")}
             label="Project Manager"
           />
+          <Link href='/admin/enquiries'>
+            <TabButton 
+            isActive={tab === "enquiry"} 
+            onClick={() => setTab("enquiry")}
+            label="Enquiries"
+          />
+          </Link>
         </div>
 
         {/* Content */}

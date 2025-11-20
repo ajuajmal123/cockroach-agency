@@ -14,11 +14,11 @@ export default function Hero() {
               transition={{ duration: 0.5 }}
               className="text-4xl font-extrabold tracking-tight sm:text-5xl"
             >
-              Design that pops. Code that ships.
+              Design that Pops. Code that Ships.
             </motion.h1>
             <p className="mt-4 text-lg text-muted">
-              We’re a two-person studio helping small businesses look sharp and go
-              live—fast. Branding, social creatives, and Next.js sites on MongoDB.
+              We’re a team of creative people helping small businesses look sharp and go
+              live fast. Branding, social creatives, and Web Development.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <a

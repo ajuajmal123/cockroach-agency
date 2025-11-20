@@ -1,8 +1,10 @@
 // app/portfolio/[id]/page.tsx
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Image from "next/image"; 
+import Image from "next/image";
 import Footer from "@/components/Footer";
+import Header from "@/components/Header.";
+import AdaptiveImage from "@/components/AdaptiveImage";
 
 // --- Types (Standard) ---
 type Project = {
@@ -11,123 +13,90 @@ type Project = {
     description: string;
     images: string[];
     coverImage?: string;
-    category: string;
+    category?: string;
     subCategory?: string;
     link?: string;
 };
 
 // --- Data Fetching (Standard) ---
 async function getProject(id: string): Promise<Project> {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/public/projects/${id}`, { 
-        cache: "no-store" 
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/public/projects/${id}`, {
+        cache: "no-store",
     });
-    
-    if (!res.ok) {
-        notFound(); 
-    }
+    if (!res.ok) notFound();
     return res.json();
 }
 
-// --- Main Server Component (Applied Fix) ---
-
-export default async function ProjectDetailPage(
-    // NOTE: Keep the params object intact in the function signature
-    props: { params: { id: string } }
-) {
-    // 🛑 FIX APPLIED HERE: Await the params object itself to force resolution
-    // Use an explicit type cast (as any) to satisfy TypeScript, as 'params' is normally synchronous.
-    const { id } = await (props.params as any); 
-    
-    // Now call getProject with the resolved ID
+// --- Main Server Component ---
+export default async function ProjectDetailPage(props: { params: { id: string } }) {
+    const { id } = await (props.params as any);
     const project = await getProject(id);
-    
-    // ... Rest of the component logic ...
 
-    const primaryImage = project.coverImage || project.images?.[0] || "/placeholder.png";
-    const secondaryImages = project.images?.filter(img => img !== primaryImage) || [];
+    // pick primary image and gallery images from project
+    const primaryImage = project.coverImage || project.images?.[0] || "";
+    const galleryImages = project.images?.length ? project.images : primaryImage ? [primaryImage] : [];
 
     return (
-        <section className="px-6 py-12">
-            <div className="mx-auto w-full max-w-6xl">
-                
-                {/* Back Link */}
-                <Link 
-                    href="/portfolio" 
-                    className="inline-flex items-center text-sm mb-6 text-gray-600 hover:text-black transition"
-                >
-                    ← Back to Portfolio
-                </Link>
+        <>
+            <Header />
 
-                {/* Header and Details */}
-                <div className="mb-10 border-b pb-4">
-                    <div className="text-sm uppercase tracking-wider text-gray-500">
-                        {project.category} {project.subCategory ? ` / ${project.subCategory}` : ""}
-                    </div>
-                    <h1 className="text-4xl font-extrabold tracking-tight mt-1 text-gray-900">{project.title}</h1>
-                    {project.link && (
-                        <a 
-                            href={project.link} 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
-                            className="mt-2 inline-block text-blue-600 hover:underline font-medium"
-                        >
-                            View Live Project →
-                        </a>
-                    )}
+            {/* Back link — aligned to page content left edge */}
+            <div className="w-full">
+                <div className="px-4 sm:px-6 lg:px-8">
+                    <Link
+                        href="/portfolio"
+                        className="inline-flex items-center text-sm mb-6 text-gray-600 hover:text-black transition"
+                    >
+                        ← Back to Portfolio
+                    </Link>
                 </div>
+            </div>
 
-                {/* Primary Image Banner */}
-                <div className="relative w-full aspect-video overflow-hidden rounded-xl shadow-xl mb-12 bg-gray-100">
-                    <Image
-                        src={primaryImage}
-                        alt={`Cover image for ${project.title}`}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 800px) 100vw, 1200px"
-                    />
-                </div>
-
-                {/* Description and Metadata */}
-                <div className="grid gap-10 lg:grid-cols-3">
-                    <div className="lg:col-span-2">
-                        <h2 className="text-2xl font-bold mb-3 text-gray-900">Project Description</h2>
-                        <p className="whitespace-pre-wrap text-gray-700">{project.description}</p>
-                    </div>
-                    
-                    <div className="lg:col-span-1 border-l border-gray-200 pl-6">
-                        <h3 className="text-xl font-bold mb-3 text-gray-900">Details</h3>
-                        <p className="text-sm text-gray-700">
-                            <span className="font-semibold">Category:</span> {project.category}
-                        </p>
-                        {project.subCategory && (
-                             <p className="text-sm mt-1 text-gray-700">
-                                <span className="font-semibold">Sub-Category:</span> {project.subCategory}
-                            </p>
+            {/* Full-width content */}
+            <main className="w-full">
+                {/* Hero: full-width (content stays within page horizontal padding but image spans visually) */}
+                <div className="relative w-full bg-gray-100">
+                    <div className="relative w-full" style={{ height: "min(60vh, 720px)" }}>
+                        {primaryImage ? (
+                            <AdaptiveImage
+                                src={primaryImage}
+                                alt={project.title}
+                                sizes="100vw"
+                                className="" // keep wrapper styles; we keep the container height as is
+                                priority
+                            />
+                        ) : (
+                            <div className="w-full h-full bg-gray-200" />
                         )}
+
+                        {/* Title overlay (keeps readable on image) */}
+                      
                     </div>
                 </div>
 
-                {/* Gallery of Secondary Images */}
-                {secondaryImages.length > 0 && (
-                    <div className="mt-16">
-                        <h2 className="text-2xl font-bold mb-6 text-gray-900">Gallery</h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            {secondaryImages.map((imgUrl, index) => (
-                                <div key={index} className="relative w-full aspect-4/3 overflow-hidden rounded-xl bg-gray-100 shadow-md">
-                                    <Image
-                                        src={imgUrl}
-                                        alt={`${project.title} detail ${index + 1}`}
-                                        fill
-                                        className="object-cover"
-                                        sizes="(max-width: 800px) 100vw, 50vw"
-                                    />
+                {/* Gallery: start at the same left padding as page (use px so it's not centered in a narrow container) */}
+                <section className="w-full bg-white">
+                    <div className="px-4 sm:px-6 lg:px-8">
+                        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                            {galleryImages.map((imgUrl, idx) => (
+                                <div key={idx} className="relative w-full overflow-hidden rounded-xl bg-gray-100" style={{ aspectRatio: "4/3" }}>
+                                    {imgUrl ? (
+                                        <AdaptiveImage
+                                            src={imgUrl}
+                                            alt={`${project.title} image ${idx + 1}`}
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full bg-gray-200" />
+                                    )}
                                 </div>
                             ))}
                         </div>
                     </div>
-                )}
-            </div>
-             
-        </section>
+                </section>
+            </main>
+
+            <Footer />
+        </>
     );
 }

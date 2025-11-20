@@ -78,8 +78,7 @@ export default function CloudinaryGallery() {
   const handleViewImages = (project: Project) => setActiveProject(project);
   const handleBackToTable = () => { setActiveProject(null); loadProjects(page, limit); };
 
-  // --- Detach from ProjectImageView: call API and refresh ---
-  // in CloudinaryGallery.tsx — inside detachImages function:
+
 async function detachImages(projectId: string, imagesToDetach: string[]) {
   if (!confirm("Remove selected images from project and delete from Cloudinary? This is permanent.")) return false;
   try {

@@ -14,8 +14,7 @@ export default function ProjectForm() {
   const [category, setCategory] = useState<string>("design");
   const [subCategory, setSubCategory] = useState<string>("");
   const [images, setImages] = useState<string[]>([
-    // Uncomment to test with your uploaded screenshot:
-    // "/mnt/data/2aab1590-c698-4caa-ae2c-31928c9d9607.png"
+
   ]);
   const [coverImage, setCoverImage] = useState<string | "">("");
   const [uploading, setUploading] = useState(false);

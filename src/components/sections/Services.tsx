@@ -4,12 +4,12 @@ const services = [
   {
     icon: <PenTool className="h-6 w-6" aria-hidden />,
     title: "Brand & Graphic Design",
-    points: ["Logo & Visual Identity", "Social Media Creatives", "Marketing Collateral"],
+    points: ["Logo & Visual Identity", "Social Media Creatives", "Various Posters"],
   },
   {
     icon: <Code2 className="h-6 w-6" aria-hidden />,
     title: "Web Design & Development",
-    points: ["Next.js Websites", "Headless CMS & MongoDB", "Performance & SEO"],
+    points: ["Static & Dynamic Websites", "Scalable & Maintainable", "Performance & SEO"],
   },
   {
     icon: <Rocket className="h-6 w-6" aria-hidden />,
