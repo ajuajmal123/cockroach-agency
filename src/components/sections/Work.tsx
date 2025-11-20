@@ -27,7 +27,7 @@ export default function Work() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
           <div>
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Selected work</h2>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Our Best Ones</h2>
             <p className="mt-3 max-w-xl text-muted">
               A peek at recent brand, web, and social projects. Ask for our full deck.
             </p>

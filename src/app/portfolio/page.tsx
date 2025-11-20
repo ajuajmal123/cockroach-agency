@@ -71,7 +71,7 @@ export default async function PortfolioPage({
   return (
     <>
       {/* 🟢 2. Header Inclusion */}
-      <Header />
+
 
       {/* 🟢 3. Background Color and Padding Adjustments */}
       <section className="bg-gray-50 pt-12 pb-20"> {/* Apply light gray background and vertical padding */}
