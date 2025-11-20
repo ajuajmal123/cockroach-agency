@@ -1,0 +1,16 @@
+/* Tailwind v4 single import */
+@import "tailwindcss";
+
+/* (Optional) Your theme tokens using v4 @theme */
+@theme {
+  --color-brand: #a7cf3a;
+  --color-brand-dark: #7fb21f;
+  --color-ink: #111827;
+  --color-muted: #6b7280;
+  --color-canvas: #f5f7fa;
+}
+
+/* (Optional) Custom utility */
+@utility shadow-soft {
+  box-shadow: 0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.1);
+}
